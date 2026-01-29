@@ -1,1 +1,1 @@
-export const baseUrl = "http://192.168.42.8:5001/api";
+export const baseUrl = "http://recipe-app-nz7j.vercel.app/api";

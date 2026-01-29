@@ -26,7 +26,7 @@ export default function RecipePage() {
     })
 
     function deleteRecipe(name: string) {
-        fetch(`${baseUrl}/api/recipes/${encodeURIComponent(name)}`, {
+        fetch(`${baseUrl}/recipes/${encodeURIComponent(name)}`, {
             method: 'DELETE',
         })
         .then(response => {

@@ -2,6 +2,7 @@ import './App.css'
 import { useEffect, useState } from 'react'
 import { getRecipes, type RecipeData } from './recipes'
 import { NavLink } from 'react-router'
+import StripCommonWords from './strip_common_words'
 
 function App() {
     const [items, setItems] = useState<RecipeData[] | null>(null)
@@ -11,8 +12,8 @@ function App() {
         getRecipes()
         .then(data => {
             if (mounted) {
-                const sorted_data = data.sort((a, b) => a.name.localeCompare(b.name))
-                setItems(sorted_data)
+                const sortedData = data.sort((a, b) => StripCommonWords(a.name).localeCompare(StripCommonWords(b.name)))
+                setItems(sortedData)
             }
             })
         .catch(err => { console.error(err) })
