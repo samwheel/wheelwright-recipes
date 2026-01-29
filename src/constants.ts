@@ -1,1 +1,1 @@
-export const baseUrl = "https://kgo5nqp01fwmzwzh.public.blob.vercel-storage.com/";
+export const baseUrl = "https://recipe-app-nz7j.vercel.app/api";
