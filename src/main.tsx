@@ -10,7 +10,6 @@ import About from './components/about.tsx'
 import Sidebar from './components/sidebar.tsx'
 import AddRecipe from './components/add-recipe.tsx'
 import EditRecipe from './components/edit-recipe.tsx'
-import './autoResizeTextareas';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';

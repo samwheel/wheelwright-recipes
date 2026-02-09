@@ -5,14 +5,17 @@ import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router'
 import { useReactToPrint } from 'react-to-print'
 import { baseUrl } from '../constants'
-import { Button } from '@mui/material'
-import { Delete, Edit, Print } from '@mui/icons-material'
+import { Alert, Button, Collapse, IconButton, type AlertColor} from '@mui/material'
+import { Close, Delete, Edit, Print } from '@mui/icons-material'
 
 export default function RecipePage() {
     const [recipes, setRecipes] = useState<RecipeData[]>([])
     const { recipeId } = useParams()
     const recipe = recipes.find((r: { id: number }) => r.id === (recipeId ? parseInt(recipeId) : -1))
     const navigate = useNavigate()
+    const [alertText, setAlertText] = useState("")
+    const [alertSeverity, setAlertSeverity] = useState<AlertColor>("success")
+    const [isAlertOpen, setIsAlertOpen] = useState(false)
 
     useEffect(() => {
         let mounted = true
@@ -34,22 +37,34 @@ export default function RecipePage() {
         .then(response => {
             if (response.ok && response.status === 200) {
                 console.log(response.json(), response.status)
-                alert('Recipe deleted successfully.')
+                setAlertText("Successfully deleted.")
+                setAlertSeverity("success")
+                setIsAlertOpen(true)
             } else {
-                alert('Failed to delete recipe.')
+                setAlertText("Failed to delete.")
+                setAlertSeverity("error")
+                setIsAlertOpen(true)
             }
         })
         .catch(error => {
             console.error('Error deleting recipe:', error)
-            alert('An error occurred while deleting the recipe.')
-        })
-        .finally(() => {
-            navigate('/')
+            setAlertText("Failed to delete.")
+            setAlertSeverity("error")
+            setIsAlertOpen(true)
+        }).finally(() => {
+            setTimeout(() => {navigate("/")}, 2000)
         })
     }
 
     return (
         <div>
+            <Collapse in={isAlertOpen}>
+                <Alert severity={alertSeverity} action={<IconButton aria-label='close' color='inherit' size='small' onClick={() => setIsAlertOpen(false)}>
+                    <Close fontSize="inherit" />
+                </IconButton>}>
+                    {alertText}
+                </Alert>
+            </Collapse>
             <Recipe
                 id={recipe?.id || -1}
                 name={recipe?.name || 'Recipe Not Found'}
@@ -64,7 +79,7 @@ export default function RecipePage() {
                 <Button onClick={() => navigate(`/edit-recipe/${recipe?.id}`)} disabled={!recipe} variant='contained'>
                     <Edit />
                 </Button>
-                <Button onClick={() => recipe?.name && deleteRecipe(recipe.id)} disabled={!recipe} variant='contained'>
+                <Button onClick={() => recipe?.id && deleteRecipe(recipe.id)} disabled={!recipe} variant='contained'>
                     <Delete />
                 </Button>
             </div>

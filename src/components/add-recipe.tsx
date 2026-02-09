@@ -4,6 +4,7 @@ import Button from "@mui/material/Button"
 import { Add } from "@mui/icons-material"
 import { useState } from "react"
 import type { RecipeData } from "../recipes"
+import { TextareaAutosize, TextField } from "@mui/material"
 
 export default function AddRecipe() {
     const navigate = useNavigate()
@@ -41,19 +42,12 @@ export default function AddRecipe() {
         <div className="form-container">
             <h1>Add a New Recipe</h1>
             <form onSubmit={handleSubmit}>
+                <TextField type="text" label="recipe name" fullWidth name="name" value={recipe.name} onChange={changeHandler} required variant="standard" />
+                <TextareaAutosize placeholder="Ingredients" name="ingredients" minRows={5} value={recipe.ingredients} onChange={changeHandler}></TextareaAutosize>
+                <TextareaAutosize placeholder="Instructions" name="instructions" minRows={5} value={recipe.instructions} onChange={changeHandler} required></TextareaAutosize>
                 <div>
-                    <label htmlFor="recipeName">Recipe Name:</label>
-                    <input type="text" id="recipeName" name="name" value={recipe.name} onChange={changeHandler} required />
+                    <Button type="submit" variant="contained"><Add fontSize="large"/></Button>
                 </div>
-                <div>
-                    <label htmlFor="ingredients">Ingredients:</label>
-                    <textarea id="ingredients" name="ingredients" value={recipe.ingredients} onChange={changeHandler} required></textarea>
-                </div>
-                <div>
-                    <label htmlFor="instructions">Instructions:</label>
-                    <textarea id="instructions" name="instructions" value={recipe.instructions} onChange={changeHandler} required></textarea>
-                </div>
-                <Button type="submit" variant="contained"><Add /></Button>
             </form>
         </div>
     )

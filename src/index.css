@@ -86,35 +86,16 @@ aside {
     margin: 2em;
 }
 
-input[type=text], textarea {
-    font-family: inherit;
-    font-size: 1em;
-    padding: 0.5em;
-    border-radius: 8px;
-    border: 1px solid #444;
-    background-color: #2a2a2a;
-    color: white;
-    width: 100%;
-    box-sizing: border-box;
-    resize: none;
-    min-height: 3em; /* changed from height: fit-content */
-}
-/* ensure textarea doesn't show scrollbars while auto-growing */
-textarea {
-    overflow: hidden;
-}
-textarea:focus,
-textarea:focus-visible {
-    outline: 4px auto -webkit-focus-ring-color;
-    border-color: #646cff;
-}
-
 a {
     font-weight: 500;
     color: white;
     text-decoration: inherit;
 }
 a:hover {
+    color: #535bf2;
+}
+
+a.active {
     color: #535bf2;
 }
 
@@ -136,6 +117,20 @@ h1 {
 
 .add-recipe-button svg {
     font-size: 4em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    font-size: 1rem;
+    font-family: 'roboto', sans-serif;
 }
 
 @media (prefers-color-scheme: light) {
@@ -160,15 +155,6 @@ h1 {
     }
     aside {
         background-color: #f0f0f0;
-    }
-    input[type=text], textarea {
-        background-color: #ffffff;
-        border: 1px solid #ccc;
-        color: #213547;
-    }
-    input[type=text]:focus,
-    textarea:focus {
-        border-color: #646cff;
     }
 }
 

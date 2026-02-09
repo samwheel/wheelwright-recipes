@@ -6,6 +6,7 @@ import { baseUrl } from "../constants"
 import Button from "@mui/material/Button"
 import { Check } from "@mui/icons-material"
 import axios from "axios"
+import { TextField, TextareaAutosize } from "@mui/material"
 
 export default function AddRecipe() {
     const { recipeId } = useParams<{recipeId: string}>()
@@ -22,18 +23,12 @@ export default function AddRecipe() {
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
-        console.log(event.target)
-
-        const name = (event.target as HTMLFormElement).recipeName.value
-        const ingredients = (event.target as HTMLFormElement).ingredients.value
-        const instructions = (event.target as HTMLFormElement).instructions.value
-        const newRecipe = { name, ingredients, instructions }
         fetch(`${baseUrl}/recipes/${recipe.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(newRecipe),
+            body: JSON.stringify(recipe),
         }).then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok')
@@ -48,23 +43,20 @@ export default function AddRecipe() {
         })
     }
 
+    function changeHandler(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        setRecipe({...recipe, [event.target.name]:event.target.value})
+    }
+
     return (
         <div className="form-container">
             <h1>Edit {recipe.name}</h1>
             <form onSubmit={handleSubmit}>
+                <TextField key={recipe.name} type="text" label="recipe name" fullWidth name="name" value={recipe.name} onChange={changeHandler} required variant="standard" />
+                <TextareaAutosize placeholder="Ingredients" name="ingredients" minRows={5} value={recipe.ingredients} onChange={changeHandler}></TextareaAutosize>
+                <TextareaAutosize placeholder="Instructions" name="instructions" minRows={5} value={recipe.instructions} onChange={changeHandler} required></TextareaAutosize>
                 <div>
-                    <label htmlFor="recipeName">Recipe Name:</label>
-                    <input type="text" id="recipeName" name="recipeName" defaultValue={recipe.name} required />
+                    <Button type="submit" variant="contained"><Check fontSize="large"/></Button>
                 </div>
-                <div>
-                    <label htmlFor="ingredients">Ingredients:</label>
-                    <textarea id="ingredients" name="ingredients" defaultValue={recipe.ingredients} required></textarea>
-                </div>
-                <div>
-                    <label htmlFor="instructions">Instructions:</label>
-                    <textarea id="instructions" name="instructions" defaultValue={recipe.instructions} required></textarea>
-                </div>
-                <Button type="submit" variant="contained"><Check /></Button>
             </form>
         </div>
     )
