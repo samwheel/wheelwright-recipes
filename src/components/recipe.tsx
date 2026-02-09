@@ -2,8 +2,8 @@ import React from 'react';
 
 type RecipeProps = {
     name: string;
-    ingredients?: string[];
-    instructions?: string[];
+    ingredients?: string;
+    instructions?: string;
 };
 
 const Recipe = React.forwardRef<HTMLDivElement, RecipeProps>(function Recipe(props, ref) {
@@ -11,16 +11,12 @@ const Recipe = React.forwardRef<HTMLDivElement, RecipeProps>(function Recipe(pro
         <div ref={ref} className='recipe'>
             <h1>{props.name}</h1>
             <h2>Ingredients:</h2>
-            <ul>
-                {props.ingredients?.map((ingredient, index) => (
-                    <li key={index}>{ingredient}</li>
-                ))}
-            </ul>
+            <div>
+                {props.ingredients}
+            </div>
             <h2>Instructions:</h2>
             <ol>
-                {props.instructions?.map((instruction, index) => (
-                    <li key={index}>{instruction}</li>
-                ))}
+                {props.instructions}
             </ol>
         </div>
     );

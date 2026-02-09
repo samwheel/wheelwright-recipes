@@ -10,8 +10,8 @@ export default function AddRecipe() {
         console.log(event.target)
 
         const name = (event.target as HTMLFormElement).recipeName.value
-        const ingredients = (event.target as HTMLFormElement).ingredients.value.split('\n').map((ing: string) => ing.trim())
-        const instructions = (event.target as HTMLFormElement).instructions.value.split('\n').map((inst: string) => inst.trim()).filter((inst: string) => inst.length > 0)
+        const ingredients = (event.target as HTMLFormElement).ingredients.value
+        const instructions = (event.target as HTMLFormElement).instructions.value
         const recipe = { name, ingredients, instructions }
         fetch(`${baseUrl}/recipes`, {
             method: 'POST',

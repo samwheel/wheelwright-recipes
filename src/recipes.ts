@@ -1,6 +1,6 @@
 import { baseUrl } from './constants.ts'
 
-type RecipeData = { id: number; name: string; ingredients: string[]; instructions: string[] }
+type RecipeData = { id: number; name: string; ingredients: string; instructions: string }
 export type { RecipeData }
 
 // Fetch and return the recipes; no module-side mutation or export-time fetch.

@@ -23,8 +23,8 @@ export default function AddRecipe() {
         console.log(event.target)
 
         const name = (event.target as HTMLFormElement).recipeName.value
-        const ingredients = (event.target as HTMLFormElement).ingredients.value.split('\n').map((ing: string) => ing.trim())
-        const instructions = (event.target as HTMLFormElement).instructions.value.split('\n').map((inst: string) => inst.trim()).filter((inst: string) => inst.length > 0)
+        const ingredients = (event.target as HTMLFormElement).ingredients.value
+        const instructions = (event.target as HTMLFormElement).instructions.value
         const newRecipe = { name, ingredients, instructions }
         fetch(`${baseUrl}/recipes/${recipe.id}`, {
             method: 'POST',
@@ -56,11 +56,11 @@ export default function AddRecipe() {
                 </div>
                 <div>
                     <label htmlFor="ingredients">Ingredients:</label>
-                    <textarea id="ingredients" name="ingredients" defaultValue={recipe.ingredients.join('\n')} required></textarea>
+                    <textarea id="ingredients" name="ingredients" defaultValue={recipe.ingredients} required></textarea>
                 </div>
                 <div>
                     <label htmlFor="instructions">Instructions:</label>
-                    <textarea id="instructions" name="instructions" defaultValue={recipe.instructions.join('\n')} required></textarea>
+                    <textarea id="instructions" name="instructions" defaultValue={recipe.instructions} required></textarea>
                 </div>
                 <button type="submit">Edit Recipe</button>
             </form>
