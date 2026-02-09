@@ -83,7 +83,7 @@ aside {
 .recipe-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 1em;
+    margin: 1em;
 }
 
 input[type=text], textarea {
