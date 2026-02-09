@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { NavLink } from "react-router";
 import { getRecipes, type RecipeData } from "../recipes";
+import stripCommonWords from "../strip-common-words";
 
 export default function RecipeList(props: {searchQuery: string}) {
     const [items, setItems] = useState<RecipeData[] | null>(null)
@@ -10,7 +11,8 @@ export default function RecipeList(props: {searchQuery: string}) {
     useEffect(() => {
         (async () => {
             const result = await getRecipes()
-            setItems(result)
+            const sortedResult = result.toSorted((item, nextItem) => stripCommonWords(item.name).localeCompare(stripCommonWords(nextItem.name)))
+            setItems(sortedResult)
         })()
     })
     

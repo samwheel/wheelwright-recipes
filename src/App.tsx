@@ -7,8 +7,6 @@ import { Search } from '@mui/icons-material'
 function App() {
     const [searchText, setSearchText] = useState("")
 
-    
-
     return (
         <div className="app">
             <h1>Wheelwright Recipes</h1>
