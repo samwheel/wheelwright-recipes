@@ -49,6 +49,7 @@ export default function RecipePage() {
     return (
         <div>
             <Recipe
+                id={recipe?.id || -1}
                 name={recipe?.name || 'Recipe Not Found'}
                 ingredients={recipe?.ingredients}
                 instructions={recipe?.instructions}
