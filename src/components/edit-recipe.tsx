@@ -1,20 +1,22 @@
 import { useNavigate } from "react-router"
 import { useParams } from "react-router"
-import { getRecipes, type RecipeData } from "../recipes"
+import { type RecipeData } from "../recipes"
 import { useEffect, useState } from "react"
 import { baseUrl } from "../constants"
+import Button from "@mui/material/Button"
+import { Check } from "@mui/icons-material"
+import axios from "axios"
 
 export default function AddRecipe() {
-    const { recipeName } = useParams<{recipeName: string}>()
-    const [recipes, setRecipes] = useState<RecipeData[]>([])
+    const { recipeId } = useParams<{recipeId: string}>()
+    const [recipe, setRecipe] = useState<RecipeData>({} as RecipeData)
     useEffect(() => {
         let mounted = true
-        getRecipes()
-            .then(data => { if (mounted) setRecipes(data) })
+        axios.get(`${baseUrl}/recipes/${recipeId}`)
+            .then(response => { if (mounted) setRecipe(response.data) })
             .catch(err => { console.error(err) })
         return () => { mounted = false }
-    }, [])
-    const recipe = recipes.find((r: RecipeData) => r.name === recipeName) || { id:-1, name: '' , ingredients: [], instructions: [] }
+    }, [recipeId])
     const navigate = useNavigate()
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -27,7 +29,7 @@ export default function AddRecipe() {
         const instructions = (event.target as HTMLFormElement).instructions.value
         const newRecipe = { name, ingredients, instructions }
         fetch(`${baseUrl}/recipes/${recipe.id}`, {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -38,12 +40,12 @@ export default function AddRecipe() {
             }
             return response.json()
         }).then(data => {
-            navigate(`/recipe/${data.id}`)
+            navigate(`/recipe/${recipe.id}`)
+            return data
         }).catch(error => {
             console.error('Error:', error)
+            navigate('/')
         })
-
-        navigate('/')
     }
 
     return (
@@ -62,7 +64,7 @@ export default function AddRecipe() {
                     <label htmlFor="instructions">Instructions:</label>
                     <textarea id="instructions" name="instructions" defaultValue={recipe.instructions} required></textarea>
                 </div>
-                <button type="submit">Edit Recipe</button>
+                <Button type="submit" variant="contained"><Check /></Button>
             </form>
         </div>
     )

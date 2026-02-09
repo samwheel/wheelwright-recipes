@@ -1,18 +1,18 @@
 import { useNavigate } from "react-router"
 import { baseUrl } from "../constants"
+import Button from "@mui/material/Button"
+import { Add } from "@mui/icons-material"
+import { useState } from "react"
+import type { RecipeData } from "../recipes"
 
 export default function AddRecipe() {
     const navigate = useNavigate()
+    const [recipe, setRecipe] = useState({} as RecipeData)
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
         console.log(event.target)
-
-        const name = (event.target as HTMLFormElement).recipeName.value
-        const ingredients = (event.target as HTMLFormElement).ingredients.value
-        const instructions = (event.target as HTMLFormElement).instructions.value
-        const recipe = { name, ingredients, instructions }
         fetch(`${baseUrl}/recipes`, {
             method: 'POST',
             headers: {
@@ -25,12 +25,16 @@ export default function AddRecipe() {
             }
             return response.json()
         }).then(data => {
-            navigate(`/recipe/${data.name}`)
+            navigate(`/recipe/${data.id}`)
         }).catch(error => {
             console.error('Error:', error)
         })
 
         navigate('/')
+    }
+
+    function changeHandler(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+        setRecipe({...recipe, [event.target.name]:event.target.value})
     }
 
     return (
@@ -39,17 +43,17 @@ export default function AddRecipe() {
             <form onSubmit={handleSubmit}>
                 <div>
                     <label htmlFor="recipeName">Recipe Name:</label>
-                    <input type="text" id="recipeName" name="recipeName" required />
+                    <input type="text" id="recipeName" name="name" value={recipe.name} onChange={changeHandler} required />
                 </div>
                 <div>
                     <label htmlFor="ingredients">Ingredients:</label>
-                    <textarea id="ingredients" name="ingredients" required></textarea>
+                    <textarea id="ingredients" name="ingredients" value={recipe.ingredients} onChange={changeHandler} required></textarea>
                 </div>
                 <div>
                     <label htmlFor="instructions">Instructions:</label>
-                    <textarea id="instructions" name="instructions" required></textarea>
+                    <textarea id="instructions" name="instructions" value={recipe.instructions} onChange={changeHandler} required></textarea>
                 </div>
-                <button type="submit">Add Recipe</button>
+                <Button type="submit" variant="contained"><Add /></Button>
             </form>
         </div>
     )

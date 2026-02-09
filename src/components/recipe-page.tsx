@@ -5,6 +5,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router'
 import { useReactToPrint } from 'react-to-print'
 import { baseUrl } from '../constants'
+import { Button } from '@mui/material'
+import { Delete, Edit, Print } from '@mui/icons-material'
 
 export default function RecipePage() {
     const [recipes, setRecipes] = useState<RecipeData[]>([])
@@ -56,15 +58,15 @@ export default function RecipePage() {
                 ref={componentRef}
             />
             <div className="recipe-buttons">
-                <button onClick={reactToPrintFn} disabled={!recipe}>
-                    Print Recipe
-                </button>
-                <button onClick={() => navigate(`/edit-recipe/${recipe?.id}`)} disabled={!recipe}>
-                    Edit Recipe
-                </button>
-                <button onClick={() => recipe?.name && deleteRecipe(recipe.id)} disabled={!recipe}>
-                    Delete Recipe
-                </button>
+                <Button onClick={reactToPrintFn} disabled={!recipe} variant='contained'>
+                    <Print />
+                </Button>
+                <Button onClick={() => navigate(`/edit-recipe/${recipe?.id}`)} disabled={!recipe} variant='contained'>
+                    <Edit />
+                </Button>
+                <Button onClick={() => recipe?.name && deleteRecipe(recipe.id)} disabled={!recipe} variant='contained'>
+                    <Delete />
+                </Button>
             </div>
         </div>
     )

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { getRecipes, type RecipeData } from './recipes'
 import { NavLink } from 'react-router'
 import StripCommonWords from './strip_common_words'
+import { Button } from '@mui/material'
+import { AddCircle } from '@mui/icons-material'
 
 function App() {
     const [items, setItems] = useState<RecipeData[] | null>(null)
@@ -28,10 +30,11 @@ function App() {
                     <NavLink to={`/recipe/${recipe.id}`}>{recipe.name}</NavLink>
                 </h2>
             ))}
-            <br />
-            <NavLink to="/add-recipe">
-                <button>Add Recipe</button>
-            </NavLink>
+            <div className="add-recipe-button">
+                <NavLink to="/add-recipe">
+                    <Button><AddCircle/></Button>
+                </NavLink>
+            </div>
         </div>
     )
 }
