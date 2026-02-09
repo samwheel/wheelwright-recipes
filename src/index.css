@@ -133,10 +133,6 @@ textarea {
     font-family: 'roboto', sans-serif;
 }
 
-input[type="text"] {
-    color: white;
-}
-
 @media (prefers-color-scheme: light) {
     :root {
         color: #213547;
