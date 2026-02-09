@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router'
 import { useReactToPrint } from 'react-to-print'
 import { baseUrl } from '../constants'
-import { Alert, Button, Collapse, IconButton, type AlertColor} from '@mui/material'
+import { Alert, Button, CircularProgress, Collapse, IconButton, type AlertColor} from '@mui/material'
 import { Close, Delete, Edit, Print } from '@mui/icons-material'
 
 export default function RecipePage() {
@@ -16,11 +16,15 @@ export default function RecipePage() {
     const [alertText, setAlertText] = useState("")
     const [alertSeverity, setAlertSeverity] = useState<AlertColor>("success")
     const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         let mounted = true
         getRecipes()
-            .then(data => { if (mounted) setRecipes(data) })
+            .then(data => { if (mounted) {
+                setRecipes(data)
+                setLoading(false)
+            }})
             .catch(err => { console.error(err) })
         return () => { mounted = false }
     }, [])
@@ -56,6 +60,7 @@ export default function RecipePage() {
         })
     }
 
+    if (!loading) {
     return (
         <div>
             <Collapse in={isAlertOpen}>
@@ -85,4 +90,13 @@ export default function RecipePage() {
             </div>
         </div>
     )
+    } else {
+        return (
+            <div>
+                <CircularProgress />
+            </div>
+        )
+    }
+
+
 }
