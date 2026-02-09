@@ -1,1 +1,1 @@
-export const baseUrl = "https://recipe-app-nz7j.vercel.app/api";
+export const baseUrl = "https://wheelwrightrecipesapi.vercel.app";
