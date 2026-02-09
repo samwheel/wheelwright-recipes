@@ -25,7 +25,7 @@ function App() {
             <h1>Recipe App</h1>
             {items?.map((recipe, index) => (
                 <h2 key={recipe.name ?? index}>
-                    <NavLink to={`/recipe/${encodeURIComponent(recipe.name)}`}>{recipe.name}</NavLink>
+                    <NavLink to={`/recipe/${recipe.id}`}>{recipe.name}</NavLink>
                 </h2>
             ))}
             <br />

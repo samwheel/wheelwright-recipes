@@ -14,7 +14,7 @@ export default function AddRecipe() {
             .catch(err => { console.error(err) })
         return () => { mounted = false }
     }, [])
-    const recipe = recipes.find((r: RecipeData) => r.name === recipeName) || { name: '' , ingredients: [], instructions: [] }
+    const recipe = recipes.find((r: RecipeData) => r.name === recipeName) || { id:-1, name: '' , ingredients: [], instructions: [] }
     const navigate = useNavigate()
 
     function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -26,7 +26,7 @@ export default function AddRecipe() {
         const ingredients = (event.target as HTMLFormElement).ingredients.value.split('\n').map((ing: string) => ing.trim())
         const instructions = (event.target as HTMLFormElement).instructions.value.split('\n').map((inst: string) => inst.trim()).filter((inst: string) => inst.length > 0)
         const newRecipe = { name, ingredients, instructions }
-        fetch(`${baseUrl}/recipes/${encodeURIComponent(recipe.name)}`, {
+        fetch(`${baseUrl}/recipes/${recipe.id}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export default function AddRecipe() {
             }
             return response.json()
         }).then(data => {
-            navigate(`/recipe/${data.name}`)
+            navigate(`/recipe/${data.id}`)
         }).catch(error => {
             console.error('Error:', error)
         })

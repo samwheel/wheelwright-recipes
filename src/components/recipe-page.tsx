@@ -8,8 +8,8 @@ import { baseUrl } from '../constants'
 
 export default function RecipePage() {
     const [recipes, setRecipes] = useState<RecipeData[]>([])
-    const { recipeName } = useParams<{recipeName: string}>()
-    const recipe = recipes.find((r: { name: string }) => r.name === recipeName)
+    const { recipeId } = useParams()
+    const recipe = recipes.find((r: { id: number }) => r.id === (recipeId ? parseInt(recipeId) : -1))
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -25,8 +25,8 @@ export default function RecipePage() {
         contentRef: componentRef
     })
 
-    function deleteRecipe(name: string) {
-        fetch(`${baseUrl}/recipes/${encodeURIComponent(name)}`, {
+    function deleteRecipe(id: number) {
+        fetch(`${baseUrl}/recipes/${id}`, {
             method: 'DELETE',
         })
         .then(response => {
@@ -58,10 +58,10 @@ export default function RecipePage() {
                 <button onClick={reactToPrintFn} disabled={!recipe}>
                     Print Recipe
                 </button>
-                <button onClick={() => navigate(`/edit-recipe/${recipe?.name}`)} disabled={!recipe}>
+                <button onClick={() => navigate(`/edit-recipe/${recipe?.id}`)} disabled={!recipe}>
                     Edit Recipe
                 </button>
-                <button onClick={() => recipe?.name && deleteRecipe(recipe.name)} disabled={!recipe}>
+                <button onClick={() => recipe?.name && deleteRecipe(recipe.id)} disabled={!recipe}>
                     Delete Recipe
                 </button>
             </div>

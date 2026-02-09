@@ -22,8 +22,8 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="/" element={<App />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/add-recipe" element={<AddRecipe />} />
-                    <Route path="/recipe/:recipeName" element={<RecipePage />} />
-                    <Route path="/edit-recipe/:recipeName" element={<EditRecipe />} />
+                    <Route path="/recipe/:recipeId" element={<RecipePage />} />
+                    <Route path="/edit-recipe/:recipeId" element={<EditRecipe />} />
                 </Routes>
             </div>
             <Sidebar />
