@@ -132,6 +132,12 @@ textarea {
     font-size: 1rem;
     font-family: 'roboto', sans-serif;
 }
+.progress {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 2em;
+}
 
 @media (prefers-color-scheme: light) {
     :root {

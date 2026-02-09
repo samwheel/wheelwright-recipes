@@ -22,7 +22,7 @@ export default function RecipeList(props: {searchQuery: string}) {
 
     if (loading) {
         return (
-            <div>
+            <div className="progress">
                 <CircularProgress/>
             </div>
         )

@@ -92,7 +92,7 @@ export default function RecipePage() {
     )
     } else {
         return (
-            <div>
+            <div className='progress'>
                 <CircularProgress />
             </div>
         )
