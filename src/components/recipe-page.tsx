@@ -1,6 +1,6 @@
 import { useParams } from 'react-router'
 import Recipe from './recipe'
-import { getRecipes, type RecipeData } from '../recipes'
+import { type RecipeData } from '../recipes'
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router'
 import { useReactToPrint } from 'react-to-print'
@@ -9,9 +9,8 @@ import { Alert, Button, CircularProgress, Collapse, IconButton, type AlertColor}
 import { Close, Delete, Edit, Print } from '@mui/icons-material'
 
 export default function RecipePage() {
-    const [recipes, setRecipes] = useState<RecipeData[]>([])
     const { recipeId } = useParams()
-    const recipe = recipes.find((r: { id: number }) => r.id === (recipeId ? parseInt(recipeId) : -1))
+    const [recipe, setRecipe] = useState<RecipeData>({} as RecipeData)
     const navigate = useNavigate()
     const [alertText, setAlertText] = useState("")
     const [alertSeverity, setAlertSeverity] = useState<AlertColor>("success")
@@ -20,14 +19,15 @@ export default function RecipePage() {
 
     useEffect(() => {
         let mounted = true
-        getRecipes()
+        fetch(`${baseUrl}/recipes/${recipeId}`)
+            .then(response => response.json())
             .then(data => { if (mounted) {
-                setRecipes(data)
+                setRecipe(data)
                 setLoading(false)
             }})
             .catch(err => { console.error(err) })
         return () => { mounted = false }
-    }, [])
+    }, [recipeId])
 
     const componentRef = useRef<HTMLDivElement>(null);
     const reactToPrintFn = useReactToPrint({
