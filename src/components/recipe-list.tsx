@@ -14,11 +14,9 @@ export default function RecipeList(props: {searchQuery: string}) {
             const result = await getRecipes()
             const sortedResult = result.toSorted((item, nextItem) => stripCommonWords(item.name).localeCompare(stripCommonWords(nextItem.name)))
             setItems(sortedResult)
-            return sortedResult
-        })().then(() => {
             setLoading(false)
-        })
-    })
+        })()
+    }, [])
 
     if (loading) {
         return (
